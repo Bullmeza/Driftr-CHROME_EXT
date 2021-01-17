@@ -11,16 +11,27 @@
       z-index: -1;
       /* visibility: hidden; */
     }
-    #canv{
-      position: absolute;
-      left: 10px;
-      top: 10px;
+    #flex{
+      width: 100%;
+      display: flex;
+      justify-content: center;
+    }
+    #loading{
+      position: fixed;
+      top: 0;
+      left: 0;
+    }
+    div{
+      width: 100%;
+      text-align: center;
     }
   </style>
   <div>
     <video autoplay="true" id="webcamVideo" width="300" height ="300"></video>
-    <canvas width=280 height=280 id="canv"> </canvas>
-    <h3 id="counter">Blinks: 0</h3>
+    <h2 id="Loading">Loading</h2>
+      <div><h3 id="counter">Blinks: 0</h3></div>
+      <div><h3 id="bpm">Average Blinks/Minute: 0</h3></div>
+      <dv><h3 id="fatigue"></h3></dv>
   </div>
   <script src="tensorflow/tf.js"></script>
   <script src="tensorflow/face-landmarks-detection.js"></script>

@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
-  "name": "Cam Scroller",
-  "description": "This extension lets a user scroll webpages using webcam gestures.",
+  "name": "Driftr Ext.",
+  "description": "Monitoring blinking rate to determine how tired you are.",
   "version": "0.1",
   "browser_action": {
     "default_popup": "popup.html"

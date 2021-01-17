@@ -11,22 +11,28 @@ function setupCam() {
 
 setupCam();
 
-
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
 
 async function track_face() {
   await tf.setBackend('webgl');
   console.log(tf.getBackend());
   let blinks = 0;
+  let bpm = 0;
   // const canvas = document.getElementById("canv");
   const frame = document.getElementById("webcamVideo");
   const counter= document.getElementById("counter")
 
   // Load the MediaPipe facemesh model.
   const model = await faceLandmarksDetection.load(faceLandmarksDetection.SupportedPackages.mediapipeFacemesh);
+  await sleep(5000);
   const video = document.querySelector("video");
+  document.getElementById("Loading").style.display = "none";
 
   
   var last_blinked = 0;
+  var start_time = new Date().getTime()
   while(true){
       var faces = await model.estimateFaces({ input: video });
 
@@ -48,11 +54,22 @@ async function track_face() {
           
           
           var time_now = new Date().getTime()
-          console.log(time_now + " " + last_blinked)
-          const timeOut = 150;
+          document.getElementById("counter").innerHTML = "Blinks: " + blinks;
+          var mins = ((time_now-start_time)/1000)/60;
+          bpm = Math.round(blinks/mins);
+          document.getElementById("bpm").innerHTML = "Average Blinks/Minute: " + bpm;
+
+          if(bpm > 15){
+            document.getElementById("fatigue").innerHTML = "Normal Blink Rate";
+          }
+          else if(bpm > 9){
+            document.getElementById("fatigue").innerHTML = "Okay Blink Rate";
+          }else{
+            document.getElementById("fatigue").innerHTML = "Risk Of Fatigue";
+          }
+          const timeOut = 300;
           if(EAR_LEFT < 0.8 && EAR_RIGHT < 0.8 && (time_now - last_blinked)>timeOut){
               blinks++;
-              document.getElementById("counter").innerHTML = "Blinks: " + blinks;
               last_blinked = new Date().getTime();
           }
       });
